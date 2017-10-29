@@ -11,6 +11,10 @@ public class FVCAccount {
     private double fvc = 1000;
     /**该账户的总收益.*/
     private double profile = 0.0;
+    /**总提现fvc币.*/
+    private double returnTotalFVC = 0.0;
+    /**持有fvc最大值.*/
+    private static final double MAX_OWN_FVC = 15000;
 
     public FVCAccount(double fvc) {
         this.fvc = fvc;
@@ -32,6 +36,10 @@ public class FVCAccount {
     }
 
     public void setFvc(double fvc) {
+        if(fvc >= MAX_OWN_FVC) {
+            System.out.println("超出账户持有fvc总额");
+            fvc = MAX_OWN_FVC;
+        }
         this.fvc = fvc;
     }
 
@@ -43,12 +51,21 @@ public class FVCAccount {
         this.profile = profile;
     }
 
+    public double getReturnTotalFVC() {
+        return returnTotalFVC;
+    }
+
+    public void setReturnTotalFVC(double returnTotalFVC) {
+        this.returnTotalFVC = returnTotalFVC;
+    }
+
     @Override
     public String toString() {
         return "FVCAccount{" +
                 "current_split_num=" + current_split_num +
                 ", fvc=" + fvc +
                 ", profile=" + profile +
+                ", returnTotalFVC=" + returnTotalFVC +
                 '}';
     }
 }

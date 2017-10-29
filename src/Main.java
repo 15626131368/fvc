@@ -20,10 +20,20 @@ public class Main {
     private static final double PROFILE_FVC = 5000;
 
     public static void main(String[] args) {
-       System.out.println(fvc_split(new FVCAccount()));
+       System.out.println(fvcCommonSplit(new FVCAccount()));
+//        System.out.println(fvcService.dynamicSplitType1(new FVCAccount()));
+//        System.out.println(fvcService.dynamicSplitType2(new FVCAccount()));
     }
 
-    public static FVCAccount fvc_split(FVCAccount fvcAccount) {
+//    第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
+//    超出账户持有fvc总额
+//    第5拆账户：FVCAccount{current_split_num=5, fvc=11350.0, profile=6300.0, returnTotalFVC=10000.0}
+//    超出账户持有fvc总额
+//    第6拆账户：FVCAccount{current_split_num=6, fvc=11350.0, profile=9450.0, returnTotalFVC=15000.0}
+//    超出账户持有fvc总额
+//    第7拆账户：FVCAccount{current_split_num=7, fvc=7700.0, profile=15750.0, returnTotalFVC=25000.0}
+//    FVCAccount{current_split_num=7, fvc=7700.0, profile=15750.0, returnTotalFVC=25000.0}
+    public static FVCAccount fvcCommonSplit(FVCAccount fvcAccount) {
 
         //判断是否拆分卖出
         if(SPLIT_NUM_TO_PROFIT.contains(fvcAccount.getCurrent_split_num())) {
@@ -36,7 +46,7 @@ public class Main {
         }
 
         //迭代进行拆分
-        return fvc_split(fvcService.split(fvcAccount));
+        return fvcCommonSplit(fvcService.split(fvcAccount));
     }
 
 }
