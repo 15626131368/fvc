@@ -22,7 +22,7 @@ public class FVCAccount implements Cloneable{
     /**账户id.*/
     private Integer accountId;
     /**复投的fvc.*/
-    private double recastFVC = 0.0;
+    private double recastDOLLAR = 0.0;
 
     public FVCAccount(Integer accountId) {
         this.accountId = accountId;
@@ -87,12 +87,12 @@ public class FVCAccount implements Cloneable{
         return MAX_OWN_FVC;
     }
 
-    public double getRecastFVC() {
-        return recastFVC;
+    public double getRecastDOLLAR() {
+        return recastDOLLAR;
     }
 
-    public void setRecastFVC(double recastFVC) {
-        this.recastFVC = recastFVC;
+    public void setRecastDOLLAR(double recastDOLLAR) {
+        this.recastDOLLAR = recastDOLLAR;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class FVCAccount implements Cloneable{
                 ", returnTotalFVC=" + returnTotalFVC +
                 ", isOut=" + isOut +
                 ", accountId=" + accountId +
-                ", recastFVC=" + recastFVC +
+                ", recastDOLLAR=" + recastDOLLAR +
                 '}';
     }
 }

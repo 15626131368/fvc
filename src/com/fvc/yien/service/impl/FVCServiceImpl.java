@@ -14,6 +14,8 @@ public class FVCServiceImpl implements FVCService {
     private static final double CHARGE_RATE = 0.1;
     /**回购比例.*/
     private static final double RETURN_RATE = 0.3;
+
+    private static final double DOLLARS_EXCHANGE_ELECTRONIC_CURRENCY_RATE = 0.6;
     /**美元对人民币汇率.*/
     private static final double DOLLARS_EXCHANGE_RMB_RATE = 6.5;
     /**总拆分上限.*/
@@ -31,14 +33,28 @@ public class FVCServiceImpl implements FVCService {
 
     @Override
     public FVCAccount profile(FVCAccount fvcAccount, double profile_fvc) {
-        fvcAccount.setReturnTotalFVC(fvcAccount.getReturnTotalFVC() + profile_fvc);
-        fvcAccount.setProfile(fvcAccount.getProfile() + profile_fvc * (1 - CHARGE_RATE) * (1 - RETURN_RATE));
-        fvcAccount.setFvc(fvcAccount.getFvc() - profile_fvc + profile_fvc * (1 - CHARGE_RATE ) * RETURN_RATE);
-        System.out.println("第"+fvcAccount.getCurrent_split_num()+"拆账户："+fvcAccount);
+//        fvcAccount.setReturnTotalFVC(fvcAccount.getReturnTotalFVC() + profile_fvc);
+//        fvcAccount.setProfile(fvcAccount.getProfile() + profile_fvc * (1 - CHARGE_RATE) * (1 - RETURN_RATE));
+//        fvcAccount.setFvc(fvcAccount.getFvc() - profile_fvc + profile_fvc * (1 - CHARGE_RATE ) * RETURN_RATE);
+//        System.out.println("第"+fvcAccount.getCurrent_split_num()+"拆账户："+fvcAccount);
+//        return fvcAccount;
+        //判断收益的fvc值是否超出账户持有的fvc值
+        if(fvcAccount.getFvc() > profile_fvc) {
+            //1.修改成为在提现阶段进行回购计算
+            fvcAccount.setReturnTotalFVC(fvcAccount.getReturnTotalFVC() + profile_fvc);
+            double tmp_charged_profile = profile_fvc * (1 - CHARGE_RATE);
+            fvcAccount.setProfile(fvcAccount.getProfile() + tmp_charged_profile * (1 - RETURN_RATE));
+            fvcAccount.setFvc(fvcAccount.getFvc() - profile_fvc
+                    + tmp_charged_profile * RETURN_RATE * DOLLARS_EXCHANGE_ELECTRONIC_CURRENCY_RATE);
+            System.out.println("第"+fvcAccount.getCurrent_split_num()+"拆账户："+fvcAccount);
+        }else {
+            System.err.println("卖出fvc值超出账户持有fvc总额");
+        }
+
         return fvcAccount;
     }
 
-//    第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
+    //    第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
 //    第4拆账户：FVCAccount{current_split_num=4, fvc=4539.0, profile=6741.0, returnTotalFVC=10700.0}
 //    第5拆账户：FVCAccount{current_split_num=5, fvc=4641.0599999999995, profile=10570.14, returnTotalFVC=16778.0}
 //    第6拆账户：FVCAccount{current_split_num=6, fvc=3280.059999999999, profile=15750.0, returnTotalFVC=25000.0}

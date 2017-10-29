@@ -1,12 +1,9 @@
 import com.fvc.yien.dataobject.FVCAccount;
 import com.fvc.yien.service.FVCService;
-import com.fvc.yien.service.InvestmentService;
 import com.fvc.yien.service.impl.FVCServiceImpl;
 import com.fvc.yien.service.impl.InvestmentServiceImpl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     /**总拆分上限.*/
@@ -26,6 +23,7 @@ public class Main {
 //       System.out.println(fvcCommonSplit(new FVCAccount()));
 //        System.out.println(fvcService.dynamicSplitType1(new FVCAccount()));
 //        System.out.println(fvcService.dynamicSplitType2(new FVCAccount()));
+//        fvcOutTest(new FVCAccount());
 
         InvestmentServiceImpl investmentService = new InvestmentServiceImpl();
         List<FVCAccount> fvcAccounts = new ArrayList<>();
@@ -42,6 +40,10 @@ public class Main {
         for(FVCAccount egg : eggs) {
             System.out.println(egg);
         }
+
+        System.out.println("总的收入（RMB）："+investmentService.getInvestment_total_profile_rmb());
+        System.out.println("总的收入（$）："+investmentService.getInvestment_total_profile_dollar());
+        System.out.println("总投资天数（DAY）："+investmentService.getInvestmentTotalDays());
     }
 
 //    第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
@@ -66,6 +68,31 @@ public class Main {
 
         //迭代进行拆分
         return fvcCommonSplit(fvcService.split(fvcAccount));
+    }
+
+    /**
+     * 6拆出局尝试
+     * @param fvcAccount
+     * @return
+     */
+    public static void fvcOutTest(FVCAccount fvcAccount) {
+        Map<Integer , Double> map = new HashMap<Integer , Double>(){{
+            put(3 , 3000.0);
+            put(4 , 7000.0);
+            put(5 , 7000.0);
+            put(6 , 8000.0);
+        }};
+
+        FVCAccount egg = new FVCAccount();
+        egg.setFvc(8000);
+        egg.setCurrent_split_num(3);
+
+        for(Integer split_num : map.keySet()) {
+            egg = fvcService.profile(egg , map.get(split_num));
+            egg = fvcService.split(egg);
+        }
+
+        System.out.print(egg);
     }
 
 }

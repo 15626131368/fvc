@@ -49,4 +49,17 @@ public interface InvestmentService {
      * @param fvcAccounts
      */
     void assignment(List<FVCAccount> fvcAccounts) throws CloneNotSupportedException;
+
+    /**
+     * 计算总的投资天数
+     * @param fvcAccounts
+     */
+    void updateInvestmentDays(List<FVCAccount> fvcAccounts);
+
+    /**
+     * 计算投资方案总的收益
+     * @param fvcAccounts
+     * @return
+     */
+    void calculateInvestmentProfile(List<FVCAccount> fvcAccounts);
 }

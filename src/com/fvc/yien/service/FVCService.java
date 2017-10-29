@@ -8,7 +8,7 @@ import com.fvc.yien.dataobject.FVCAccount;
 public interface FVCService {
     /**拆分.*/
     FVCAccount split(FVCAccount fvcAccount);
-    /**收益.*/
+    /**收益，在卖fvc的时候计算回购.*/
     FVCAccount profile(FVCAccount fvcAccount , double profile_fvc);
 
     /**收益.
