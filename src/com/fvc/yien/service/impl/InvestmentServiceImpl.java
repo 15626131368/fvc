@@ -22,8 +22,6 @@ public class InvestmentServiceImpl implements InvestmentService {
     private static final double RETURN_RATE = 0.3;
     /**美元对人民币汇率.*/
     private static final double DOLLARS_EXCHANGE_RMB_RATE = 6.5;
-    /**总拆分上限.*/
-    private static final Integer SPLIT_NUM = 7;
     /**累计兑换的fvc最大值.*/
     private static final double MAX_TOTAL_FVC = 25000;
     /**总共的鸡蛋数量.*/
@@ -32,6 +30,18 @@ public class InvestmentServiceImpl implements InvestmentService {
     private static final double RETURN_FVC = 5000;
     /**账户初始投资fvc.*/
     private static final double ACCOUNT_INIT_FVC = 1000;
+    /**投资方案总收益RMB.*/
+    private static final double investment_total_profile_rmb = 0.0;
+    /**投资方案总收益$.*/
+    private static final double investment_total_profile_dollar = 0.0;
+
+    public static double getInvestment_total_profile_rmb() {
+        return investment_total_profile_rmb;
+    }
+
+    public static double getInvestment_total_profile_dollar() {
+        return investment_total_profile_dollar;
+    }
 
     public List<FVCAccount> getFvcAccounts() {
         return fvcAccounts;
@@ -83,6 +93,12 @@ public class InvestmentServiceImpl implements InvestmentService {
         return fvcAccount;
     }
 
+    /**
+     * 11拆出局方案，已最快方案复投产生点位
+     * @param fvcAccount
+     * @param profile_fvc
+     * @return
+     */
     @Override
     public FVCAccount profile(FVCAccount fvcAccount, double profile_fvc) {
 
@@ -116,12 +132,6 @@ public class InvestmentServiceImpl implements InvestmentService {
         return fvcAccount;
     }
 
-//    第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
-//    第4拆账户：FVCAccount{current_split_num=4, fvc=5050.0, profile=6300.0, returnTotalFVC=10000.0}
-//    第5拆账户：FVCAccount{current_split_num=5, fvc=6450.0, profile=9450.0, returnTotalFVC=15000.0}
-//    第6拆账户：FVCAccount{current_split_num=6, fvc=5600.0, profile=15750.0, returnTotalFVC=25000.0}
-//    在第6拆时完成出局！
-//    FVCAccount{current_split_num=6, fvc=5600.0, profile=15750.0, returnTotalFVC=25000.0}
     @Override
     public FVCAccount dynamicSplitType2(FVCAccount fvcAccount) {
         //1.如果账户fvc+已收益的fvc >= 25000，则全部提现就行出局

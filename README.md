@@ -1,6 +1,6 @@
 # fvc
 
-# 单账号6拆出局收益情况，方案一
+# 单账号6拆出局收益情况，方案一 FVCServiceImpl.dynamicSplitType1
 ```
 第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
 第4拆账户：FVCAccount{current_split_num=4, fvc=4539.0, profile=6741.0, returnTotalFVC=10700.0}
@@ -10,7 +10,7 @@
 FVCAccount{current_split_num=6, fvc=3280.059999999999, profile=15750.0, returnTotalFVC=25000.0}
 ```
 
-# 单账号6拆出局收益情况，方案二
+# 单账号6拆出局收益情况，方案二 FVCServiceImpl.dynamicSplitType2
 ```
 第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
 第4拆账户：FVCAccount{current_split_num=4, fvc=5050.0, profile=6300.0, returnTotalFVC=10000.0}
@@ -20,7 +20,7 @@ FVCAccount{current_split_num=6, fvc=3280.059999999999, profile=15750.0, returnTo
 FVCAccount{current_split_num=6, fvc=5600.0, profile=15750.0, returnTotalFVC=25000.0}
 ```
 
-#11拆出局方案
+#11拆出局方案 InVestmentServiceImpl.investmentType1
 ```
 【复投信息】账户1复投产生新账户2
 【复投信息】账户1复投产生新账户3
