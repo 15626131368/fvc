@@ -3,6 +3,9 @@ package com.fvc.yien.service.impl;
 import com.fvc.yien.dataobject.FVCAccount;
 import com.fvc.yien.service.FVCService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/10/24 0024.
  */
@@ -17,6 +20,7 @@ public class FVCServiceImpl implements FVCService {
     private static final int SPLIT_NUM = 7;
     /**累计兑换的fvc最大值.*/
     private static final double MAX_TOTAL_FVC = 25000;
+    /**fvc账户集.**/
 
     @Override
     public FVCAccount split(FVCAccount fvcAccount) {
@@ -42,9 +46,9 @@ public class FVCServiceImpl implements FVCService {
 //    FVCAccount{current_split_num=6, fvc=3280.059999999999, profile=15750.0, returnTotalFVC=25000.0}
     @Override
     public FVCAccount dynamicSplitType1(FVCAccount fvcAccount) {
-        if(fvcAccount.getFvc() + fvcAccount.getReturnTotalFVC() >= MAX_TOTAL_FVC) {
-            fvcAccount = profile(fvcAccount , MAX_TOTAL_FVC - fvcAccount.getReturnTotalFVC());
-            System.out.println("在第"+fvcAccount.getCurrent_split_num()+"拆时完成出局！");
+        //1.如果账户fvc+已收益的fvc >= 25000，则全部提现就行出局
+        fvcAccount = IsSuccess(fvcAccount);
+        if(fvcAccount.getOut()) {
             return fvcAccount;
         }
         //1.判断账户fvc是否超过5000
@@ -66,9 +70,8 @@ public class FVCServiceImpl implements FVCService {
     @Override
     public FVCAccount dynamicSplitType2(FVCAccount fvcAccount) {
         //1.如果账户fvc+已收益的fvc >= 25000，则全部提现就行出局
-        if(fvcAccount.getFvc() + fvcAccount.getReturnTotalFVC() >= MAX_TOTAL_FVC) {
-            fvcAccount = profile(fvcAccount , MAX_TOTAL_FVC - fvcAccount.getReturnTotalFVC());
-            System.out.println("在第"+fvcAccount.getCurrent_split_num()+"拆时完成出局！");
+        fvcAccount = IsSuccess(fvcAccount);
+        if(fvcAccount.getOut()) {
             return fvcAccount;
         }
         //2.如果账户fvc超过5000则，提现5000
@@ -77,5 +80,15 @@ public class FVCServiceImpl implements FVCService {
         }
         //3.继续拆分
         return dynamicSplitType2(split(fvcAccount));
+    }
+
+    @Override
+    public FVCAccount IsSuccess(FVCAccount fvcAccount) {
+        if(fvcAccount.getFvc() + fvcAccount.getReturnTotalFVC() >= MAX_TOTAL_FVC) {
+            fvcAccount.setOut(true); //标志为出局
+            fvcAccount = profile(fvcAccount , MAX_TOTAL_FVC - fvcAccount.getReturnTotalFVC());
+            System.out.println("在第"+fvcAccount.getCurrent_split_num()+"拆时完成出局！");
+        }
+        return fvcAccount;
     }
 }

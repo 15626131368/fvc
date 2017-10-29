@@ -4,7 +4,11 @@ package com.fvc.yien.dataobject;
  * Created by Administrator on 2017/10/24 0024.
  * FVC会员账户
  */
-public class FVCAccount {
+public class FVCAccount implements Cloneable{
+
+    /**持有fvc最大值.*/
+    private static final double MAX_OWN_FVC = 15000;
+
     /**当前拆分次数.*/
     private int current_split_num = 0;
     /**当前拥有fvc币.*/
@@ -13,11 +17,15 @@ public class FVCAccount {
     private double profile = 0.0;
     /**总提现fvc币.*/
     private double returnTotalFVC = 0.0;
-    /**持有fvc最大值.*/
-    private static final double MAX_OWN_FVC = 15000;
+    /**是否已经出局.*/
+    private Boolean isOut = false;
+    /**账户id.*/
+    private Integer accountId;
+    /**复投的fvc.*/
+    private double recastFVC = 0.0;
 
-    public FVCAccount(double fvc) {
-        this.fvc = fvc;
+    public FVCAccount(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public FVCAccount() {
@@ -59,6 +67,40 @@ public class FVCAccount {
         this.returnTotalFVC = returnTotalFVC;
     }
 
+    public Boolean getOut() {
+        return isOut;
+    }
+
+    public void setOut(Boolean out) {
+        isOut = out;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public static double getMaxOwnFvc() {
+        return MAX_OWN_FVC;
+    }
+
+    public double getRecastFVC() {
+        return recastFVC;
+    }
+
+    public void setRecastFVC(double recastFVC) {
+        this.recastFVC = recastFVC;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        FVCAccount egg = (FVCAccount)super.clone();
+        return egg;
+    }
+
     @Override
     public String toString() {
         return "FVCAccount{" +
@@ -66,6 +108,9 @@ public class FVCAccount {
                 ", fvc=" + fvc +
                 ", profile=" + profile +
                 ", returnTotalFVC=" + returnTotalFVC +
+                ", isOut=" + isOut +
+                ", accountId=" + accountId +
+                ", recastFVC=" + recastFVC +
                 '}';
     }
 }

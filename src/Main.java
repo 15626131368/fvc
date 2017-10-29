@@ -1,7 +1,10 @@
 import com.fvc.yien.dataobject.FVCAccount;
 import com.fvc.yien.service.FVCService;
+import com.fvc.yien.service.InvestmentService;
 import com.fvc.yien.service.impl.FVCServiceImpl;
+import com.fvc.yien.service.impl.InvestmentServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,9 +23,25 @@ public class Main {
     private static final double PROFILE_FVC = 5000;
 
     public static void main(String[] args) {
-       System.out.println(fvcCommonSplit(new FVCAccount()));
+//       System.out.println(fvcCommonSplit(new FVCAccount()));
 //        System.out.println(fvcService.dynamicSplitType1(new FVCAccount()));
 //        System.out.println(fvcService.dynamicSplitType2(new FVCAccount()));
+
+        InvestmentServiceImpl investmentService = new InvestmentServiceImpl();
+        List<FVCAccount> fvcAccounts = new ArrayList<>();
+        fvcAccounts.add(new FVCAccount(fvcAccounts.size() + 1));
+        investmentService.setFvcAccounts(fvcAccounts);
+
+        List<FVCAccount> eggs = null;
+        try {
+            eggs = investmentService.investmentType1(fvcAccounts);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        for(FVCAccount egg : eggs) {
+            System.out.println(egg);
+        }
     }
 
 //    第3拆账户：FVCAccount{current_split_num=3, fvc=4350.0, profile=3150.0, returnTotalFVC=5000.0}
